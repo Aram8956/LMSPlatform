@@ -33,15 +33,22 @@ namespace Course.API
 
             builder.Services.AddMassTransit(x =>
             {
-                x.UsingRabbitMq((ctx, cfg) =>
+                x.AddConsumers(typeof(Program).Assembly);
+
+                x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(builder.Configuration["RabbitMQ:Host"], h =>
-                    {
-                        h.Username(builder.Configuration["RabbitMQ:User"]);
-                        h.Password(builder.Configuration["RabbitMQ:Pass"]);
-                    });
+                    cfg.Host(
+                        builder.Configuration["RabbitMQ:Host"]!,
+                        h =>
+                        {
+                            h.Username(builder.Configuration["RabbitMQ:User"]!);
+                            h.Password(builder.Configuration["RabbitMQ:Pass"]!);
+                        });
+
+                    cfg.ConfigureEndpoints(context);
                 });
             });
+
 
             var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!);
 
@@ -67,7 +74,6 @@ namespace Course.API
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
-
 
             app.UseSwagger();
             app.UseSwaggerUI();

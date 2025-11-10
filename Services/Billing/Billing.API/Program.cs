@@ -2,7 +2,8 @@
 using Billing.Infrastructure.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer; 
+using Microsoft.EntityFrameworkCore.SqlServer;
+using Polly;
 
 namespace Billing.API
 {
@@ -41,12 +42,23 @@ namespace Billing.API
             //using (var scope = app.Services.CreateScope())
             //{
             //    var db = scope.ServiceProvider.GetRequiredService<BillingContext>();
-            //    db.Database.EnsureCreated();
+
+            //    var retry = Policy
+            //        .Handle<Exception>()
+            //        .WaitAndRetry(10, _ => TimeSpan.FromSeconds(5)); // повторы каждые 5 сек
+
+            //    retry.Execute(() =>
+            //    {
+            //        Console.WriteLine("⏳ Trying to migrate BillingDB...");
+            //        db.Database.Migrate();
+            //        Console.WriteLine("✅ BillingDB migrated!");
+            //    });
             //}
 
             app.UseSwagger();
             app.UseSwaggerUI();
             app.MapControllers();
+
             app.Run();
         }
     }

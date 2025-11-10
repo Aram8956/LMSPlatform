@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
@@ -22,11 +23,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Billing\Billing.API\Billing.API.csproj" />
-		<ProjectReference Include="..\..\Billing\Billing.Infrastructure\Billing.Infrastructure.csproj" />
 		<ProjectReference Include="..\Course.Aplication\Course.Aplication.csproj" />
 		<ProjectReference Include="..\Course.Domain\Course.Domain.csproj" />
 		<ProjectReference Include="..\Course.Infrastructure\Course.Infrastructure.csproj" />
 	</ItemGroup>
+
 
 </Project>
